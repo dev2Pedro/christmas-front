@@ -1,16 +1,17 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Geist, Geist_Mono, Merriweather } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
-import "./globals.css"
+import type React from "react";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono, Merriweather } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { Toaster } from "sonner"; // 👈 importa aqui
+import "./globals.css";
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const _geist = Geist({ subsets: ["latin"] });
+const _geistMono = Geist_Mono({ subsets: ["latin"] });
 const _merriweather = Merriweather({
   weight: ["700"],
   subsets: ["latin"],
   variable: "--font-serif",
-})
+});
 
 export const metadata: Metadata = {
   title: "Adote um Idoso neste Natal - Transforme Vidas com Amor",
@@ -34,19 +35,20 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="pt-BR">
       <body className={`${_merriweather.variable} font-sans antialiased`}>
         {children}
+        <Toaster richColors position="top-center" />
         <Analytics />
       </body>
     </html>
-  )
+  );
 }

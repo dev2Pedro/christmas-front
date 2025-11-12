@@ -107,7 +107,7 @@ export default function Home() {
             <div className="mb-6 flex justify-center">
               <div className="inline-flex items-center gap-2 rounded-full bg-accent/20 px-4 py-2 text-sm font-medium text-accent-foreground">
                 <Sparkles className="h-4 w-4" />
-                <span>Projeto Acadêmico • Natal 2024</span>
+                <span>Projeto Acadêmico • Natal 2025</span>
               </div>
             </div>
 

@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Gift } from "lucide-react"
-import Image from "next/image"
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Gift } from "lucide-react";
+import Image from "next/image";
 
 interface ElderCardProps {
   elder: {
-    id: string
-    name: string
-    age: number
-    photo: string
-    likes: string
-    wish: string
-  }
-  onGift: () => void
+    id: string;
+    name: string;
+    age: number;
+    photo: string;
+    likes: string;
+    wish: string;
+  };
+  onGift: () => void;
 }
 
 export function ElderCard({ elder, onGift }: ElderCardProps) {
   return (
     <Card className="overflow-hidden border-2 transition-all hover:shadow-lg">
       <div className="aspect-square overflow-hidden bg-muted">
-        <Image
+        <img
           src={elder.photo || "/placeholder.svg"}
-          alt={`Ilustração de ${elder.name}`}
-          width={400}
-          height={400}
+          alt={`Foto de ${elder.name}`}
           className="h-full w-full object-cover transition-transform hover:scale-105"
         />
       </div>
       <div className="p-5">
         <div className="mb-3">
-          <h3 className="text-xl font-semibold text-foreground">{elder.name}</h3>
+          <h3 className="text-xl font-semibold text-foreground">
+            {elder.name}
+          </h3>
           <p className="text-sm text-muted-foreground">{elder.age} anos</p>
         </div>
 
@@ -55,5 +55,5 @@ export function ElderCard({ elder, onGift }: ElderCardProps) {
         </Button>
       </div>
     </Card>
-  )
+  );
 }

@@ -38,7 +38,7 @@ export default function AdminPage() {
         setElders(JSON.parse(savedElders));
       } else {
         // Inicializar com dados padrão
-        const initialElders = [
+        const initialElders: Elder[] = [
           {
             id: "1",
             name: "Dona Maria",
@@ -46,7 +46,6 @@ export default function AdminPage() {
             photo: "/elderly-woman-illustration-warm-smile-grandmother.jpg",
             likes: "Tricô, ouvir músicas antigas e tomar chá",
             wish: "Um kit de tricô com lãs coloridas e um rádio",
-            adopted: false,
           },
           {
             id: "2",
@@ -55,7 +54,6 @@ export default function AdminPage() {
             photo: "/elderly-man-illustration-kind-face-grandfather.jpg",
             likes: "Jogar damas, jardinagem e contar histórias",
             wish: "Um jogo de damas e ferramentas de jardinagem",
-            adopted: false,
           },
           {
             id: "3",
@@ -64,7 +62,6 @@ export default function AdminPage() {
             photo: "/elderly-woman-illustration-sweet-smile-reading.jpg",
             likes: "Ler romances, cozinhar e cuidar de plantas",
             wish: "Livros de romance e um kit de temperos",
-            adopted: false,
           },
           {
             id: "4",
@@ -73,7 +70,6 @@ export default function AdminPage() {
             photo: "/elderly-man-illustration-gentle-smile-painter.jpg",
             likes: "Pintar paisagens, ouvir rádio e fazer palavras-cruzadas",
             wish: "Tintas e pincéis para pintura",
-            adopted: false,
           },
           {
             id: "5",
@@ -82,7 +78,6 @@ export default function AdminPage() {
             photo: "/elderly-woman-illustration-happy-face-cooking.jpg",
             likes: "Cozinhar doces, bordar e assistir novelas",
             wish: "Linhas de bordar e um cobertor quentinho",
-            adopted: false,
           },
           {
             id: "6",
@@ -91,7 +86,6 @@ export default function AdminPage() {
             photo: "/elderly-man-illustration-wise-face-chess-player.jpg",
             likes: "Jogar xadrez, ler jornais e fazer caminhadas",
             wish: "Um tabuleiro de xadrez e um par de tênis confortável",
-            adopted: false,
           },
         ];
         localStorage.setItem("elders", JSON.stringify(initialElders));
