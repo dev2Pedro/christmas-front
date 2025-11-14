@@ -11,6 +11,7 @@ interface Elder {
   age: number;
   likes: string;
   wish: string;
+  image?: string;
 }
 
 interface ElderCardProps {
@@ -24,6 +25,8 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
   if (!elder) {
     return null;
   }
+
+  console.log(elder);
 
   const getEmoji = (id: string) => {
     const emojis: Record<string, string> = {
@@ -63,9 +66,17 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
       <div className="p-6 pt-20">
         <div className="mb-4 flex justify-center">
           <div className="relative w-32 h-32 rounded-full border-4 border-green-700 overflow-hidden shadow-xl bg-white">
-            <div className="w-full h-full flex items-center justify-center text-6xl">
-              {getEmoji(elder.id)}
-            </div>
+            {elder.image ? (
+              <img
+                src={elder.image}
+                alt={elder.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-6xl">
+                {getEmoji(elder.id)}
+              </div>
+            )}
           </div>
         </div>
 

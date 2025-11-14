@@ -45,8 +45,6 @@ export function GiftFormModal({
         elderName,
       });
 
-      console.log("🎁 Dados enviados com sucesso:", response.data);
-
       toast.success(
         `🎁 Doação feita! Vamos entrar em contato com você em breve.`
       );

@@ -9,6 +9,7 @@ import { ChristmasLights } from "@/components/christmas-lights";
 import { Confetti } from "@/components/confetti";
 import { ElderCard } from "@/components/elder-cards";
 import { GiftFormModal } from "@/components/gift-form-modal";
+import { api } from "@/services/api";
 
 interface Elder {
   id: string;
@@ -20,52 +21,21 @@ interface Elder {
 
 export default function Home() {
   const [selectedElder, setSelectedElder] = useState<Elder | null>(null);
+  const [idosos, setIdosos] = useState<Elder[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const initialElders = [
-    {
-      id: "1",
-      name: "Dona Maria",
-      age: 78,
-      likes: "Tricô, ouvir músicas antigas e tomar chá",
-      wish: "Um kit de tricô com lãs coloridas e um rádio",
-    },
-    {
-      id: "2",
-      name: "Seu João",
-      age: 82,
-      likes: "Jogar damas, jardinagem e contar histórias",
-      wish: "Um jogo de damas e ferramentas de jardinagem",
-    },
-    {
-      id: "3",
-      name: "Dona Ana",
-      age: 75,
-      likes: "Ler romances, cozinhar e cuidar de plantas",
-      wish: "Livros de romance e um kit de temperos",
-    },
-    {
-      id: "4",
-      name: "Seu Pedro",
-      age: 80,
-      likes: "Pintar paisagens, ouvir rádio e fazer palavras-cruzadas",
-      wish: "Tintas e pincéis para pintura",
-    },
-    {
-      id: "5",
-      name: "Dona Rosa",
-      age: 76,
-      likes: "Cozinhar doces, bordar e assistir novelas",
-      wish: "Linhas de bordar e um cobertor quentinho",
-    },
-    {
-      id: "6",
-      name: "Seu Antônio",
-      age: 84,
-      likes: "Jogar xadrez, ler jornais e fazer caminhadas",
-      wish: "Um tabuleiro de xadrez e um par de tênis confortável",
-    },
-  ];
+  useEffect(() => {
+    async function carregarIdosos() {
+      try {
+        const res = await api.get<Elder[]>("/elders");
+        setIdosos(res.data);
+      } catch (err) {
+        console.error("Erro ao carregar idosos:", err);
+      }
+    }
+
+    carregarIdosos();
+  }, []);
 
   const handleGiftClick = (elder: any) => {
     setSelectedElder(elder);
@@ -239,7 +209,7 @@ export default function Home() {
           </div>
 
           <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {initialElders.map((elder) => (
+            {idosos.map((elder) => (
               <ElderCard
                 key={elder.id}
                 elder={elder}
@@ -270,7 +240,7 @@ export default function Home() {
             <div className="grid gap-8 md:grid-cols-3">
               <div className="p-6 rounded-xl bg-linear-to-br from-red-100 to-green-100 border-4 border-red-600 shadow-lg">
                 <div className="mb-2 text-5xl font-bold text-red-700">
-                  {initialElders.length}
+                  {idosos.length}
                 </div>
                 <div className="text-sm font-bold uppercase text-green-800">
                   Idosos Disponíveis

@@ -105,7 +105,6 @@ export default function AdminDashboard() {
   };
 
   const atualizarStatus = async (pedidoId: number, novoStatus: Status) => {
-    console.log("STATUS ENVIADO:", novoStatus);
     try {
       await api.put(`/gifts/${pedidoId}`, { status: novoStatus });
 
