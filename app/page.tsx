@@ -8,165 +8,18 @@ import { Snowfall } from "@/components/snow-fall";
 import { ChristmasLights } from "@/components/christmas-lights";
 import { Confetti } from "@/components/confetti";
 import { ElderCard } from "@/components/elder-cards";
+import { GiftFormModal } from "@/components/gift-form-modal";
 
-<Snowfall />;
-
-<ChristmasLights />;
-
-<Confetti active={false} />;
-
-<ElderCard
-  elder={undefined}
-  onGift={function (): void {
-    throw new Error("Function not implemented.");
-  }}
-/>;
-
-const GiftFormModal = ({ isOpen, onClose, elderName }: any) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  if (!isOpen) return null;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowSuccess(true);
-    setTimeout(() => {
-      onClose();
-      setShowSuccess(false);
-      setFormData({ name: "", email: "", phone: "", message: "" });
-    }, 3000);
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      {showSuccess && <Confetti active={true} />}
-
-      <Card className="relative w-full max-w-lg border-4 border-red-600 bg-gradient-to-br from-green-50 to-red-50 shadow-2xl overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-red-600 via-green-600 to-red-600"></div>
-
-        <div className="p-8">
-          <div className="mb-6 text-center">
-            <div className="mb-4 flex justify-center">
-              <div className="rounded-full bg-gradient-to-br from-red-600 to-green-700 p-4 shadow-lg">
-                <Gift className="h-10 w-10 text-white" />
-              </div>
-            </div>
-            <h2
-              className="mb-2 text-3xl font-bold text-green-800"
-              style={{ fontFamily: "serif" }}
-            >
-              Presentear {elderName}
-            </h2>
-            <p className="text-sm text-gray-600">
-              Preencha os dados abaixo para continuar
-            </p>
-          </div>
-
-          {showSuccess ? (
-            <div className="py-12 text-center">
-              <div className="mb-4 text-6xl animate-bounce">🎉</div>
-              <h3 className="mb-2 text-2xl font-bold text-green-700">
-                Obrigado!
-              </h3>
-              <p className="text-gray-600">Entraremos em contato em breve!</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="mb-1 block text-sm font-semibold text-green-800">
-                  Seu Nome *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  className="w-full rounded-lg border-2 border-green-300 bg-white px-4 py-2 focus:border-red-600 focus:outline-none"
-                  placeholder="Digite seu nome completo"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold text-green-800">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  className="w-full rounded-lg border-2 border-green-300 bg-white px-4 py-2 focus:border-red-600 focus:outline-none"
-                  placeholder="seu@email.com"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold text-green-800">
-                  Telefone *
-                </label>
-                <input
-                  type="tel"
-                  required
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  className="w-full rounded-lg border-2 border-green-300 bg-white px-4 py-2 focus:border-red-600 focus:outline-none"
-                  placeholder="(00) 00000-0000"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-sm font-semibold text-green-800">
-                  Mensagem (opcional)
-                </label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                  className="w-full rounded-lg border-2 border-green-300 bg-white px-4 py-2 focus:border-red-600 focus:outline-none resize-none"
-                  rows={3}
-                  placeholder="Deixe uma mensagem especial..."
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button
-                  type="button"
-                  onClick={onClose}
-                  variant="outline"
-                  className="flex-1 rounded-full border-2 border-gray-300 font-semibold hover:bg-gray-100"
-                >
-                  Cancelar
-                </Button>
-                <Button
-                  type="submit"
-                  className="flex-1 rounded-full bg-gradient-to-r from-red-600 to-green-700 font-bold text-white shadow-lg hover:from-red-700 hover:to-green-800"
-                >
-                  Confirmar 🎁
-                </Button>
-              </div>
-            </form>
-          )}
-        </div>
-      </Card>
-    </div>
-  );
-};
+interface Elder {
+  id: string;
+  name: string;
+  age: number;
+  likes: string;
+  wish: string;
+}
 
 export default function Home() {
-  const [selectedElder, setSelectedElder] = useState<any>(null);
+  const [selectedElder, setSelectedElder] = useState<Elder | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const initialElders = [
@@ -225,7 +78,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-green-900 via-red-900 to-green-900">
+    <main className="min-h-screen bg-linear-to-b from-green-900 via-red-900 to-green-900">
       <Snowfall />
 
       <section className="relative overflow-hidden">
@@ -278,7 +131,7 @@ export default function Home() {
               <Button
                 size="lg"
                 onClick={scrollToElders}
-                className="group h-14 gap-2 rounded-full bg-gradient-to-r from-red-600 to-green-700 px-10 text-lg font-bold text-white shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_30px_rgba(255,0,0,0.5)] border-4 border-yellow-400"
+                className="group h-14 gap-2 rounded-full bg-linear-to-r from-red-600 to-green-700 px-10 text-lg font-bold text-white shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_30px_rgba(255,0,0,0.5)] border-4 border-yellow-400"
               >
                 <Heart className="h-6 w-6 animate-pulse" />
                 Quero Presentear!
@@ -328,8 +181,8 @@ export default function Home() {
           </div>
 
           <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
-            <Card className="border-4 border-red-600 bg-gradient-to-br from-red-50 to-green-50 p-8 shadow-xl hover:scale-105 transition-all">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 text-3xl font-bold text-white shadow-lg border-4 border-yellow-400">
+            <Card className="border-4 border-red-600 bg-linear-to-br from-red-50 to-green-50 p-8 shadow-xl hover:scale-105 transition-all">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-red-600 to-red-700 text-3xl font-bold text-white shadow-lg border-4 border-yellow-400">
                 1
               </div>
               <h3 className="mb-3 text-2xl font-bold text-green-800">
@@ -340,8 +193,8 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="border-4 border-green-600 bg-gradient-to-br from-green-50 to-red-50 p-8 shadow-xl hover:scale-105 transition-all">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-green-600 to-green-700 text-3xl font-bold text-white shadow-lg border-4 border-yellow-400">
+            <Card className="border-4 border-green-600 bg-linear-to-br from-green-50 to-red-50 p-8 shadow-xl hover:scale-105 transition-all">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-green-600 to-green-700 text-3xl font-bold text-white shadow-lg border-4 border-yellow-400">
                 2
               </div>
               <h3 className="mb-3 text-2xl font-bold text-green-800">
@@ -352,8 +205,8 @@ export default function Home() {
               </p>
             </Card>
 
-            <Card className="border-4 border-red-600 bg-gradient-to-br from-red-50 to-green-50 p-8 shadow-xl hover:scale-105 transition-all">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 text-3xl font-bold text-white shadow-lg border-4 border-red-600">
+            <Card className="border-4 border-red-600 bg-linear-to-br from-red-50 to-green-50 p-8 shadow-xl hover:scale-105 transition-all">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-yellow-500 to-yellow-600 text-3xl font-bold text-white shadow-lg border-4 border-red-600">
                 3
               </div>
               <h3 className="mb-3 text-2xl font-bold text-green-800">
@@ -370,7 +223,7 @@ export default function Home() {
 
       <section
         id="idosos"
-        className="py-16 md:py-24 bg-gradient-to-b from-red-800 to-green-900 relative"
+        className="py-16 md:py-24 bg-linear-to-b from-red-800 to-green-900 relative"
       >
         <div className="container mx-auto px-4">
           <div className="mx-auto mb-12 max-w-2xl text-center">
@@ -415,7 +268,7 @@ export default function Home() {
             </p>
 
             <div className="grid gap-8 md:grid-cols-3">
-              <div className="p-6 rounded-xl bg-gradient-to-br from-red-100 to-green-100 border-4 border-red-600 shadow-lg">
+              <div className="p-6 rounded-xl bg-linear-to-br from-red-100 to-green-100 border-4 border-red-600 shadow-lg">
                 <div className="mb-2 text-5xl font-bold text-red-700">
                   {initialElders.length}
                 </div>
@@ -423,7 +276,7 @@ export default function Home() {
                   Idosos Disponíveis
                 </div>
               </div>
-              <div className="p-6 rounded-xl bg-gradient-to-br from-green-100 to-red-100 border-4 border-green-600 shadow-lg">
+              <div className="p-6 rounded-xl bg-linear-to-br from-green-100 to-red-100 border-4 border-green-600 shadow-lg">
                 <div className="mb-2 text-5xl font-bold text-green-700">
                   2025
                 </div>
@@ -431,7 +284,7 @@ export default function Home() {
                   Primeira Edição
                 </div>
               </div>
-              <div className="p-6 rounded-xl bg-gradient-to-br from-red-100 to-green-100 border-4 border-yellow-500 shadow-lg">
+              <div className="p-6 rounded-xl bg-linear-to-br from-red-100 to-green-100 border-4 border-yellow-500 shadow-lg">
                 <div className="mb-2 text-5xl">❤️</div>
                 <div className="text-sm font-bold uppercase text-green-800">
                   Feito com Carinho
@@ -442,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 md:py-24 bg-gradient-to-b from-green-900 to-red-900 relative">
+      <section className="py-16 md:py-24 bg-linear-to-b from-green-900 to-red-900 relative">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 text-6xl animate-pulse">
             ⭐
@@ -459,7 +312,7 @@ export default function Home() {
         </div>
 
         <div className="container relative mx-auto px-4">
-          <Card className="mx-auto max-w-3xl border-8 border-yellow-400 bg-gradient-to-br from-red-600 to-green-700 shadow-2xl overflow-hidden">
+          <Card className="mx-auto max-w-3xl border-8 border-yellow-400 bg-linear-to-br from-red-600 to-green-700 shadow-2xl overflow-hidden">
             <div className="p-8 md:p-12 text-center">
               <div className="mb-6 text-7xl animate-bounce-slow">🎅</div>
               <h2

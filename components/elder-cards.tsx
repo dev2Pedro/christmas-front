@@ -38,7 +38,7 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
 
   return (
     <Card
-      className="relative overflow-hidden border-4 border-red-600 bg-gradient-to-br from-green-50 to-red-50 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
+      className="relative overflow-hidden border-4 border-red-600 bg-linear-to-br from-green-50 to-red-50 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -53,7 +53,7 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
         </div>
       </div>
 
-      <div className="absolute top-8 left-0 right-0 h-8 bg-gradient-to-r from-red-600 via-red-700 to-red-600 transform -skew-y-2 shadow-md"></div>
+      <div className="absolute top-8 left-0 right-0 h-8 bg-linear-to-r from-red-600 via-red-700 to-red-600 transform -skew-y-2 shadow-md"></div>
       <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
         <div className="w-12 h-12 bg-yellow-400 rounded-full border-4 border-red-700 flex items-center justify-center shadow-lg">
           <Gift className="w-6 h-6 text-red-700" />
@@ -100,7 +100,7 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
 
         <Button
           onClick={onGift}
-          className="w-full h-12 gap-2 rounded-full bg-gradient-to-r from-red-600 to-green-700 text-white font-bold text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:from-red-700 hover:to-green-800 group-hover:animate-pulse"
+          className="w-full h-12 gap-2 rounded-full bg-linear-to-r from-red-600 to-green-700 text-white font-bold text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:from-red-700 hover:to-green-800 group-hover:animate-pulse"
         >
           <Gift className="h-5 w-5" />
           Presentear {elder.name}
@@ -109,7 +109,7 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
 
       {isHovered && (
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-yellow-200/20 to-transparent animate-shimmer"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-yellow-200/20 to-transparent animate-shimmer"></div>
         </div>
       )}
 

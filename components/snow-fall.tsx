@@ -1,11 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+type Flake = {
+  id: number;
+  left: number;
+  animationDuration: number;
+  animationDelay: number;
+  fontSize: number;
+};
+
 export const Snowfall = () => {
-  const snowflakes = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    animationDuration: 5 + Math.random() * 10,
-    animationDelay: Math.random() * 5,
-    fontSize: 10 + Math.random() * 10,
-  }));
+  const [snowflakes, setSnowflakes] = useState<Flake[]>([]);
+
+  useEffect(() => {
+    const flakes: Flake[] = Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      animationDuration: 5 + Math.random() * 10,
+      animationDelay: Math.random() * 5,
+      fontSize: 10 + Math.random() * 10,
+    }));
+
+    setSnowflakes(flakes);
+  }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
@@ -23,6 +41,7 @@ export const Snowfall = () => {
           ❄
         </div>
       ))}
+
       <style jsx>{`
         @keyframes snowfall {
           0% {
@@ -40,6 +59,7 @@ export const Snowfall = () => {
             opacity: 0;
           }
         }
+
         .animate-snowfall {
           animation: snowfall linear infinite;
         }
