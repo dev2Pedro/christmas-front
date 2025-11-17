@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { api } from "@/services/api";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -13,19 +14,27 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setLoading(true);
 
-    setTimeout(() => {
-      if (email === "admin@natal.com" && password === "natal2025") {
-        document.cookie = "admin_authenticated=true; path=/; max-age=2592000";
+    try {
+      const response = await api.post("/admin/login", {
+        email,
+        password,
+      });
 
+      if (response.status === 200) {
         window.location.href = "/admin";
-      } else {
-        alert("❌ Email ou senha incorretos!");
-        setLoading(false);
       }
-    }, 1000);
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        alert("❌ Email ou senha incorretos!");
+      } else {
+        alert("❌ Erro ao tentar logar!");
+        console.error(error);
+      }
+      setLoading(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {

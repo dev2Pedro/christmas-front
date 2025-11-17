@@ -26,8 +26,6 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
     return null;
   }
 
-  console.log(elder);
-
   const getEmoji = (id: string) => {
     const emojis: Record<string, string> = {
       "1": "👵",
@@ -93,7 +91,7 @@ export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
         <div className="my-4 space-y-3 rounded-lg bg-white/60 p-4 border-2 border-green-200">
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">
-              ❤️ Gosta de:
+              ❤️ Sobre mim:
             </p>
             <p className="text-sm leading-relaxed text-gray-700">
               {elder.likes}

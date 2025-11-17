@@ -6,12 +6,10 @@ export function middleware(req: NextRequest) {
 
   const path = req.nextUrl.pathname;
 
-  // Permitir login SEM verificação
   if (path === "/admin/login") {
     return NextResponse.next();
   }
 
-  // Proteger qualquer rota que comece com /admin
   if (path.startsWith("/admin") && !isAdmin) {
     return NextResponse.redirect(new URL("/admin/login", req.url));
   }

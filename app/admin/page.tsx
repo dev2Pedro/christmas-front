@@ -14,7 +14,6 @@ import {
   Trash2,
   RefreshCw,
   Users,
-  TrendingUp,
   Package,
 } from "lucide-react";
 
@@ -174,7 +173,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-red-50 to-green-50">
-      {/* Header */}
       <div className="bg-linear-to-r from-red-600 to-green-700 text-white py-8 shadow-xl border-b-4 border-yellow-400">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -191,33 +189,34 @@ export default function AdminDashboard() {
             </div>
             <div className="flex gap-3">
               <Button
+                onClick={() => (window.location.href = "/")}
+                className="bg-yellow-500 text-white hover:bg-yellow-400 font-semibold"
+              >
+                ← Voltar
+              </Button>
+
+              <Button
                 onClick={() => setViewMode("pedidos")}
-                className={`${
+                className={`font-semibold ${
                   viewMode === "pedidos"
                     ? "bg-white text-green-800"
-                    : "bg-green-800 text-white"
-                } hover:bg-green-50 hover:text-green-900 font-semibold`}
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
               >
                 <Package className="w-4 h-4 mr-2" />
                 Pedidos
               </Button>
+
               <Button
                 onClick={() => setViewMode("idosos")}
-                className={`${
+                className={`font-semibold ${
                   viewMode === "idosos"
                     ? "bg-white text-green-800"
-                    : "bg-green-800 text-white"
-                } hover:bg-green-50 hover:text-green-900 font-semibold`}
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
               >
                 <Users className="w-4 h-4 mr-2" />
                 Idosos
-              </Button>
-              <Button
-                onClick={carregarDados}
-                className="bg-white text-green-800 hover:bg-green-50 font-semibold"
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Atualizar
               </Button>
             </div>
           </div>
@@ -225,7 +224,6 @@ export default function AdminDashboard() {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {/* Estatísticas */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
           <Card className="p-4 text-center border-4 border-gray-300 bg-white shadow-lg hover:scale-105 transition-all">
             <div className="text-3xl font-bold text-gray-800">
@@ -277,10 +275,8 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        {/* View de Pedidos */}
         {viewMode === "pedidos" && (
           <>
-            {/* Filtros */}
             <Card className="p-4 mb-6 border-4 border-red-600 bg-white shadow-lg">
               <div className="flex flex-wrap gap-3">
                 <Button
@@ -313,7 +309,6 @@ export default function AdminDashboard() {
               </div>
             </Card>
 
-            {/* Lista de Pedidos */}
             {loading ? (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4 animate-spin">🎄</div>
@@ -424,7 +419,6 @@ export default function AdminDashboard() {
           </>
         )}
 
-        {/* View de Idosos */}
         {viewMode === "idosos" && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {idosos.map((idoso) => (
@@ -471,7 +465,6 @@ export default function AdminDashboard() {
         )}
       </div>
 
-      {/* Modal de Detalhes do Pedido */}
       {selectedPedido && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
