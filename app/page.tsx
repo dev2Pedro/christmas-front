@@ -9,6 +9,7 @@ import { ChristmasLights } from "@/components/christmas-lights";
 import { ElderCard } from "@/components/elder-cards";
 import { GiftFormModal } from "@/components/gift-form-modal";
 import { api } from "@/services/api";
+import Link from "next/link";
 
 interface Elder {
   id: string;
@@ -324,6 +325,11 @@ export default function Home() {
           <p className="mt-2 text-green-200 text-sm">
             Espalhando amor e alegria neste Natal 🎅✨
           </p>
+          <Link href="/admin/login">
+            <Button className="mt-6 bg-green-800/50 hover:bg-green-700 text-white text-xs px-4 py-2 opacity-50 hover:opacity-100 transition-all">
+              🔐 Acesso Administrativo
+            </Button>
+          </Link>
         </div>
       </footer>
 
