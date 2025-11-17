@@ -184,7 +184,7 @@ export default function AdminDashboard() {
                 🎄 Painel Administrativo
               </h1>
               <p className="text-green-100">
-                Gerenciamento - Adote um Idoso Natal 2025
+                Gerenciamento - Presentear um Idoso Natal 2025
               </p>
             </div>
             <div className="flex gap-3">
@@ -270,7 +270,7 @@ export default function AdminDashboard() {
               {estatisticas.idososAdotados}/{idosos.length}
             </div>
             <div className="text-sm text-red-700 font-semibold mt-1">
-              Idosos Adotados
+              Idosos presenteados
             </div>
           </Card>
         </div>

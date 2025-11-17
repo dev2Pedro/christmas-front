@@ -14,9 +14,9 @@ const _merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "Adote um Idoso neste Natal - Transforme Vidas com Amor",
+  title: "Presentei um Idoso neste Natal - Transforme Vidas com Amor",
   description:
-    "Participe do projeto Adote um Idoso neste Natal e leve alegria, carinho e esperança para quem mais precisa. Cada gesto de amor transforma vidas.",
+    "Participe do projeto Presentei um Idoso neste Natal e leve alegria, carinho e esperança para quem mais precisa. Cada gesto de amor transforma vidas.",
   generator: "v0.app",
   icons: {
     icon: [

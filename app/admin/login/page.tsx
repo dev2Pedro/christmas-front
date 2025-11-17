@@ -99,7 +99,7 @@ export default function AdminLogin() {
                 Painel de gerenciamento do projeto
                 <br />
                 <span className="text-sm text-red-600 font-semibold">
-                  Adote um Idoso Natal 2025
+                  Presentear um Idoso Natal 2025
                 </span>
               </p>
             </div>

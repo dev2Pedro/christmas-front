@@ -88,7 +88,7 @@ export default function Home() {
                 textShadow: "4px 4px 8px rgba(0,0,0,0.5)",
               }}
             >
-              🎄 Adote um Idoso
+              🎄 Presentear um Idoso
               <br />
               neste Natal 🎅
             </h1>
@@ -304,7 +304,7 @@ export default function Home() {
                 className="h-16 gap-3 rounded-full bg-yellow-400 px-12 text-xl font-bold text-green-900 shadow-2xl transition-all hover:scale-110 hover:bg-yellow-300 border-4 border-white"
               >
                 <Heart className="h-6 w-6 animate-pulse" />
-                Adote um Idoso Agora
+                Presentear um Idoso Agora
                 <Gift className="h-6 w-6" />
               </Button>
             </div>
