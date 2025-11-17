@@ -126,7 +126,7 @@ export default function AdminDashboard() {
       const idoso = idosos.find((i) => i.id === idosoId);
       if (!idoso) return;
 
-      await api.patch(`/elders/${idosoId}`, { adopted: !idoso.adopted });
+      await api.put(`/elders/${idosoId}`, { adopted: !idoso.adopted });
 
       setIdosos((prev) =>
         prev.map((i) => (i.id === idosoId ? { ...i, adopted: !i.adopted } : i))

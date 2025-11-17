@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Heart, Gift, Sparkles, Star, TreePine, Bell } from "lucide-react";
+import { Heart, Gift, Sparkles, Star } from "lucide-react";
 import { Snowfall } from "@/components/snow-fall";
 import { ChristmasLights } from "@/components/christmas-lights";
-import { Confetti } from "@/components/confetti";
 import { ElderCard } from "@/components/elder-cards";
 import { GiftFormModal } from "@/components/gift-form-modal";
 import { api } from "@/services/api";
@@ -17,6 +16,7 @@ interface Elder {
   age: number;
   likes: string;
   wish: string;
+  adopted: boolean;
 }
 
 export default function Home() {
@@ -28,7 +28,8 @@ export default function Home() {
     async function carregarIdosos() {
       try {
         const res = await api.get<Elder[]>("/elders");
-        setIdosos(res.data);
+        const idososDisponiveis = res.data.filter((idoso) => !idoso.adopted);
+        setIdosos(idososDisponiveis);
       } catch (err) {
         console.error("Erro ao carregar idosos:", err);
       }
