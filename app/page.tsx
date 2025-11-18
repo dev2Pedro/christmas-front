@@ -8,7 +8,7 @@ import { Snowfall } from "@/components/snow-fall";
 import { ChristmasLights } from "@/components/christmas-lights";
 import { ElderCard } from "@/components/elder-cards";
 import { GiftFormModal } from "@/components/gift-form-modal";
-import { api } from "@/services/api";
+import { api } from "@/lib/api";
 import Link from "next/link";
 
 interface Elder {

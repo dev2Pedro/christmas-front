@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
-import { api } from "@/services/api";
+import { api } from "@/lib/api";
 import { toast } from "sonner";
 import {
   Dialog,

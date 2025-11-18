@@ -17,7 +17,7 @@ import {
   Package,
 } from "lucide-react";
 
-import { api } from "@/services/api";
+import { api } from "@/lib/api";
 
 interface Gift {
   id: number;

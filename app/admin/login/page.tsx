@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react";
-import { api } from "@/services/api";
+import { api } from "@/lib/api";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
