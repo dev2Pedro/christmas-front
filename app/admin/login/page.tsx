@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -14,25 +15,24 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
   const handleLogin = async () => {
     setLoading(true);
 
     try {
-      const response = await api.post("/admin/login", {
-        email,
-        password,
-      });
+      const response = await api.post("/admin/login", { email, password });
 
-      if (response.status === 200) {
-        window.location.href = "/admin";
+      if (response.data.isAdmin) {
+        localStorage.setItem("isAdmin", "true");
+        router.push("/admin");
+      } else {
+        alert("❌ Email ou senha incorretos!");
+        setLoading(false);
       }
     } catch (error: any) {
-      if (error.response?.status === 401) {
-        alert("❌ Email ou senha incorretos!");
-      } else {
-        alert("❌ Erro ao tentar logar!");
-        console.error(error);
-      }
+      alert("❌ Erro ao tentar logar!");
+      console.error(error);
       setLoading(false);
     }
   };

@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 interface Gift {
   id: number;
@@ -65,6 +66,7 @@ const STATUS_CONFIG = {
 } as const;
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [pedidos, setPedidos] = useState<Gift[]>([]);
   const [idosos, setIdosos] = useState<Elder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,8 +75,14 @@ export default function AdminDashboard() {
   const [viewMode, setViewMode] = useState("pedidos");
 
   useEffect(() => {
+    const isAdmin = localStorage.getItem("isAdmin");
+    if (!isAdmin) {
+      router.push("/admin/login");
+      return;
+    }
+
     carregarDados();
-  }, []);
+  }, [router]);
 
   const carregarDados = async () => {
     try {
