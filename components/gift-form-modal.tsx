@@ -39,6 +39,11 @@ export function GiftFormModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!formData.message.trim()) {
+      toast.error("Por favor, deixe uma mensagem para o idoso!");
+      return;
+    }
+
     try {
       const response = await api.post("/gifts", {
         ...formData,
@@ -116,11 +121,12 @@ export function GiftFormModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="message">Mensagem (opcional)</Label>
+            <Label htmlFor="message">Mensagem*</Label>
             <Textarea
               id="message"
               placeholder="Deixe uma mensagem carinhosa para o idoso..."
               value={formData.message}
+              required
               onChange={(e) =>
                 setFormData({ ...formData, message: e.target.value })
               }
