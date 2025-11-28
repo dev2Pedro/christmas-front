@@ -10,6 +10,7 @@ import { ElderCard } from "@/components/elder-cards";
 import { GiftFormModal } from "@/components/gift-form-modal";
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { NoEldersAvailable } from "@/components/no-elders-available";
 
 interface Elder {
   id: string;
@@ -193,34 +194,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="idosos"
-        className="py-16 md:py-24 bg-linear-to-b from-red-800 to-green-900 relative"
-      >
-        <div className="container mx-auto px-4">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <h2
-              className="mb-4 text-4xl md:text-5xl font-bold text-white drop-shadow-lg"
-              style={{ fontFamily: "serif" }}
-            >
-              ⭐ Conheça Nossos Idosos ⭐
-            </h2>
-            <p className="text-xl text-green-100 font-medium">
-              Cada um tem uma história única e um desejo especial
-            </p>
-          </div>
+      {idosos.length === 0 ? (
+        <NoEldersAvailable />
+      ) : (
+        <section
+          id="idosos"
+          className="py-16 md:py-24 bg-linear-to-b from-red-800 to-green-900 relative"
+        >
+          <div className="container mx-auto px-4">
+            <div className="mx-auto mb-12 max-w-2xl text-center">
+              <h2
+                className="mb-4 text-4xl md:text-5xl font-bold text-white drop-shadow-lg"
+                style={{ fontFamily: "serif" }}
+              >
+                ⭐ Conheça Nossos Idosos ⭐
+              </h2>
+              <p className="text-xl text-green-100 font-medium">
+                Cada um tem uma história única e um desejo especial
+              </p>
+            </div>
 
-          <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {idosos.map((elder) => (
-              <ElderCard
-                key={elder.id}
-                elder={elder}
-                onGift={() => handleGiftClick(elder)}
-              />
-            ))}
+            <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {idosos.map((elder) => (
+                <ElderCard
+                  key={elder.id}
+                  elder={elder}
+                  onGift={() => handleGiftClick(elder)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="py-16 md:py-24 bg-white/95 backdrop-blur">
         <div className="container mx-auto px-4">
