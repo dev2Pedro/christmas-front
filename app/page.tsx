@@ -106,7 +106,7 @@ export default function Home() {
                 className="group h-14 gap-2 rounded-full bg-linear-to-r from-red-600 to-green-700 px-10 text-lg font-bold text-white shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_30px_rgba(255,0,0,0.5)] border-4 border-yellow-400"
               >
                 <Heart className="h-6 w-6 animate-pulse" />
-                Quero Presentear!
+                Quero Presentear
                 <Sparkles className="h-6 w-6" />
               </Button>
             </div>
