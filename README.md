@@ -1,36 +1,261 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎄 Projeto Natal Solidário 2025
 
-## Getting Started
+<div align="center">
+  
+  ![Status](https://img.shields.io/badge/Status-Concluído-success?style=for-the-badge)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+  ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+  ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+  ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-First, run the development server:
+  <p align="center">
+    <strong>Sistema de gerenciamento de doações natalinas desenvolvido em parceria com estudantes de Psicologia da UNISOCIESC Blumenau</strong>
+  </p>
 
+  [Demo ao Vivo](https://christmas-front-zeta.vercel.app/) · [Reportar Bug](URL_ISSUES) · [Sugerir Recurso](URL_ISSUES)
+
+</div>
+
+---
+
+## 📖 Sobre o Projeto
+
+O **Projeto Natal Solidário 2025** é uma plataforma web completa desenvolvida para coordenar e gerenciar doações natalinas para o **Lar Geriátrico Maria da Graça**. Este projeto nasceu de uma parceria interdisciplinar entre tecnologia e psicologia, visando proporcionar um Natal mais feliz para idosos que vivenciam o Natal de forma solitária.
+
+### 🎯 Objetivo
+
+Facilitar a conexão entre doadores e idosos, proporcionando transparência e organização ao processo de arrecadação de presentes, garantindo que cada idoso seja lembrado e presenteado neste Natal.
+
+### 🤝 Parceria
+
+Este projeto foi desenvolvido em colaboração com alunas do curso de **Psicologia da UNISOCIESC Blumenau**, que trouxeram a sensibilidade e o cuidado necessários para entender as necessidades emocionais e desejos de cada idoso.
+
+---
+
+## ✨ Funcionalidades
+
+### 👤 Para Doadores
+
+- 🎅 Visualização de perfis dos idosos com suas histórias e desejos
+- 🎁 Sistema de seleção de idosos para presentear
+- 📝 Formulário intuitivo de adoção com validação de dados
+- ✅ Confirmação de participação com feedback visual
+- 📱 Interface totalmente responsiva
+
+### 🔐 Painel Administrativo
+
+- 📊 Dashboard com estatísticas em tempo real
+- 👥 Gerenciamento completo de idosos
+- 📋 Controle de status das doações (Pendente, Em Contato, Confirmado, Entregue)
+- 🔍 Sistema de filtros por status
+- 📞 Visualização de dados dos doadores
+- ⚡ Atualização de status com feedback instantâneo
+
+### 🎨 Experiência do Usuário
+
+- 🌟 Design natalino com animações suaves
+- ❄️ Efeito de neve sutil
+- 🎨 Gradientes festivos
+- 📱 Responsivo para todos os dispositivos
+- ♿ Acessibilidade considerada em todo o design
+
+---
+
+## 🖼️ Screenshots
+
+### Landing Page
+![Landing Page](./screenshots/screenshot-1.png)
+*Página inicial com convite para participação*
+
+### Galeria de Idosos
+![Galeria de Idosos](./screenshots/screenshot-2.png)
+*Cards com perfis dos idosos, suas histórias e desejos*
+
+### Formulário de Adoção
+![Formulário](./screenshots/screenshot-3.png)
+*Interface para doadores confirmarem sua participação*
+
+### Página de Conclusão
+![Missão Cumprida](./screenshots/screenshot-4.png)
+*Feedback quando todos os idosos foram adotados*
+
+### Sobre o Projeto
+![Sobre](./screenshots/screenshot-5.png)
+*Informações sobre o projeto e como participar*
+
+### Painel Administrativo
+![Dashboard Admin](./screenshots/screenshot-6.png)
+*Dashboard com estatísticas e gerenciamento de doações*
+
+### Gerenciamento de Pedidos
+![Gerenciamento](./screenshots/screenshot-7.png)
+*Visualização detalhada dos pedidos e doadores*
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+### Frontend
+
+- **[React 18](https://react.dev/)** - Biblioteca para construção de interfaces
+- **[Next.js 14](https://nextjs.org/)** - Framework React com SSR e otimizações
+- **[TypeScript](https://www.typescriptlang.org/)** - Superset JavaScript com tipagem estática
+- **[Tailwind CSS](https://tailwindcss.com/)** - Framework CSS utility-first
+- **[shadcn/ui](https://ui.shadcn.com/)** - Componentes reutilizáveis e acessíveis
+- **[Lucide React](https://lucide.dev/)** - Biblioteca de ícones moderna
+
+### Deploy & CI/CD
+
+- **[Vercel](https://vercel.com/)** - Deploy automatizado com CI/CD
+
+---
+
+## 💻 Como Executar Localmente
+
+### Pré-requisitos
+
+- Node.js 18+ instalado
+- npm ou yarn
+
+### Instalação
+
+1. Clone o repositório
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/seu-usuario/projeto-natal-solidario.git
+cd projeto-natal-solidario
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências
+```bash
+npm install
+# ou
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Execute o servidor de desenvolvimento
+```bash
+npm run dev
+# ou
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Abra [http://localhost:3000](http://localhost:3000) no seu navegador
 
-## Learn More
+### Build para Produção
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📊 Resultados e Impacto
 
-## Deploy on Vercel
+<div align="center">
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Métrica | Resultado |
+|---------|-----------|
+| 🎁 Idosos Presenteados | **11** |
+| 💝 Taxa de Adoção | **100%** |
+| 👥 Doadores Participantes | **11** |
+| 📦 Presentes Entregues | **10** (1 em andamento) |
+| ⭐ Satisfação | **Infinita** |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</div>
+
+## 🏗️ Estrutura do Projeto
+
+```
+projeto-natal-solidario/
+├── src/
+│   ├── app/                  # Pages e layouts Next.js
+│   │   ├── page.tsx         # Landing page
+│   │   └── admin/           # Painel administrativo
+│   ├── components/          # Componentes React
+│   │   ├── ui/             # Componentes shadcn/ui
+│   │   ├── Hero.tsx        # Hero section
+│   │   ├── Gallery.tsx     # Galeria de idosos
+│   │   ├── Stats.tsx       # Estatísticas
+│   │   └── Footer.tsx      # Rodapé
+│   ├── lib/                # Utilitários e helpers
+│   └── styles/             # Estilos globais
+├── public/                 # Arquivos estáticos
+│   └── screenshots/        # Imagens do README
+└── ...
+```
+
+---
+
+## 🎓 Aprendizados
+
+Este projeto demonstrou o poder da **colaboração interdisciplinar**:
+
+- 🤝 **Parceria Tecnologia + Psicologia**: Enquanto o desenvolvimento focava na arquitetura técnica, as estudantes de Psicologia garantiam que cada funcionalidade considerasse as necessidades emocionais dos idosos
+- 💡 **UX/UI Humanizado**: Cada decisão de design foi pensada para criar uma experiência acolhedora e emocionalmente envolvente
+- 📈 **Impacto Real**: Ver tecnologia transformando vidas e trazendo sorrisos reforça o propósito de desenvolver com significado
+- 🔄 **Código Reutilizável**: A arquitetura permite adaptar o projeto para futuras campanhas solidárias
+
+---
+
+## 👥 Contribuidores
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/dev2Pedro">
+        <img src="https://github.com/dev2Pedro.png" width="100px;" alt="Foto do Desenvolvedor"/><br>
+        <sub>
+          <b>Pedro Cristóvão</b>
+        </sub>
+      </a>
+      <br />
+      <sub>💻 Desenvolvimento</sub>
+    </td>
+    <td align="center">
+      <sub>
+        <b>Turma de Psicologia</b>
+      </sub>
+      <br />
+      <sub>UNISOCIESC Blumenau</sub>
+      <br />
+      <sub>🧠 Idealização & Coordenação</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🏆 Agradecimentos
+
+- 💚 **Turma de Psicologia da UNISOCIESC Blumenau** pela idealização e parceria
+- 🏠 **Lar Geriátrico Maria da Graça** pela confiança e acolhimento
+- 🎁 **Todos os doadores** que tornaram este Natal especial
+- ❤️ **Idosos** por nos permitirem fazer parte de suas histórias
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 📞 Contato
+
+**Desenvolvedor**: Seu Nome
+
+- LinkedIn: [pedro-prudencio](https://www.linkedin.com/in/pedro-prud%C3%AAncio-5a309a237/)
+- Email: itspedrodev@gmail.com
+
+---
+
+<div align="center">
+
+### ⭐ Se este projeto te inspirou, considere dar uma estrela!
+
+**Feito com ❤️ para levar alegria a quem mais precisa**
+
+🎄 *"O amor não se divide, multiplica-se."* 🎄
+
+</div>
