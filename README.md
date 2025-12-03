@@ -64,7 +64,7 @@ Este projeto foi desenvolvido em colaboração com alunas do curso de **Psicolog
 ## 🖼️ Screenshots
 
 ### Landing Page
-![Landing Page](./screenshots/screenshot-1.png)
+<img width="1709" height="1071" alt="Image" src="https://github.com/user-attachments/assets/11e6aba6-448f-48de-a598-eebcc4d9fef4" />
 *Página inicial com convite para participação*
 
 ### Galeria de Idosos
