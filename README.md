@@ -28,7 +28,7 @@ Facilitar a conexão entre doadores e idosos, proporcionando transparência e or
 
 ### 🤝 Parceria
 
-Este projeto foi desenvolvido em colaboração com alunas do curso de **Psicologia da UNISOCIESC Blumenau**, que trouxeram a sensibilidade e o cuidado necessários para entender as necessidades emocionais e desejos de cada idoso.
+Este projeto foi desenvolvido em colaboração com a turma do curso de **Psicologia da UNISOCIESC Blumenau**, que trouxeram a sensibilidade e o cuidado necessários para entender as necessidades emocionais e desejos de cada idoso.
 
 ---
 
@@ -68,28 +68,32 @@ Este projeto foi desenvolvido em colaboração com alunas do curso de **Psicolog
 *Página inicial com convite para participação*
 
 ### Galeria de Idosos
-![Galeria de Idosos](./screenshots/screenshot-2.png)
+<img width="1710" height="1072" alt="Image" src="https://github.com/user-attachments/assets/dc64060e-fe6a-42b1-91d7-3741fadf7eb3" />
 *Cards com perfis dos idosos, suas histórias e desejos*
 
 ### Formulário de Adoção
-![Formulário](./screenshots/screenshot-3.png)
+<img width="1710" height="1071" alt="Image" src="https://github.com/user-attachments/assets/2694daea-3d4e-4568-8f9e-3e70d712f0c7" />
 *Interface para doadores confirmarem sua participação*
 
 ### Página de Conclusão
-![Missão Cumprida](./screenshots/screenshot-4.png)
+<img width="1707" height="1040" alt="Image" src="https://github.com/user-attachments/assets/ac21ca1d-90de-4d76-941f-e63a3b3bf2ef" />
 *Feedback quando todos os idosos foram adotados*
 
 ### Sobre o Projeto
-![Sobre](./screenshots/screenshot-5.png)
+<img width="1710" height="1074" alt="Image" src="https://github.com/user-attachments/assets/8b45bd29-cc27-4aa3-82bc-209af6e3d11f" />
 *Informações sobre o projeto e como participar*
 
 ### Painel Administrativo
-![Dashboard Admin](./screenshots/screenshot-6.png)
+<img width="3420" height="2142" alt="Image" src="https://github.com/user-attachments/assets/eba5b41a-5511-4d10-9661-3d95cb1bb494" />
 *Dashboard com estatísticas e gerenciamento de doações*
 
-### Gerenciamento de Pedidos
-![Gerenciamento](./screenshots/screenshot-7.png)
-*Visualização detalhada dos pedidos e doadores*
+### Painel de doadores
+<img width="3420" height="2131" alt="Image" src="https://github.com/user-attachments/assets/4e96027a-dcad-486f-b503-86dc40d3ada7" />
+*Visualização completa de quem presenteou cada idoso, incluindo nome, e-mail e telefone para contato*
+
+### Gerenciamento de idosos que foram presenteados
+<img width="1710" height="1071" alt="Image" src="https://github.com/user-attachments/assets/bb817df5-3b83-4605-9518-c83e2e292724" />
+*Tela que gerencia os idosos que foram ou não presenteados*
 
 ---
 
@@ -104,9 +108,18 @@ Este projeto foi desenvolvido em colaboração com alunas do curso de **Psicolog
 - **[shadcn/ui](https://ui.shadcn.com/)** - Componentes reutilizáveis e acessíveis
 - **[Lucide React](https://lucide.dev/)** - Biblioteca de ícones moderna
 
+### Backend
+
+- **[Fastify](https://fastify.dev/)** - Framework web rápido e eficiente para Node.js
+- **[Prisma](https://www.prisma.io/)** - ORM moderno para TypeScript e Node.js
+- **[Zod](https://zod.dev/)** - Validação de schemas com TypeScript-first
+- **[PostgreSQL](https://www.postgresql.org/)** - Banco de dados relacional robusto
+- **[Supabase](https://supabase.com/)** - Plataforma de backend com PostgreSQL hospedado
+
 ### Deploy & CI/CD
 
 - **[Vercel](https://vercel.com/)** - Deploy automatizado com CI/CD
+- **[Render](https://render.com/)** - Deploy do backend
 
 ---
 
