@@ -1,21 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
-  Gift,
-  Phone,
-  Mail,
-  MessageSquare,
-  CheckCircle,
-  Clock,
-  Eye,
-  Trash2,
-  RefreshCw,
-  Users,
-  Package,
-} from "lucide-react";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
 
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
@@ -43,27 +37,24 @@ interface Elder {
 type Status = "pendente" | "em-contato" | "confirmado" | "entregue";
 
 const STATUS_CONFIG = {
-  pendente: {
-    label: "⏰ Pendente",
-    color: "bg-yellow-100 text-yellow-800 border-yellow-300",
-    buttonColor: "bg-yellow-600 hover:bg-yellow-700",
-  },
-  "em-contato": {
-    label: "📞 Em Contato",
-    color: "bg-blue-100 text-blue-800 border-blue-300",
-    buttonColor: "bg-blue-600 hover:bg-blue-700",
-  },
-  confirmado: {
-    label: "✅ Confirmado",
-    color: "bg-green-100 text-green-800 border-green-300",
-    buttonColor: "bg-green-600 hover:bg-green-700",
-  },
-  entregue: {
-    label: "🎁 Entregue",
-    color: "bg-purple-100 text-purple-800 border-purple-300",
-    buttonColor: "bg-purple-600 hover:bg-purple-700",
-  },
+  pendente: { label: "Pendente", dot: "bg-amber-500" },
+  "em-contato": { label: "Em contato", dot: "bg-sky-600" },
+  confirmado: { label: "Confirmado", dot: "bg-emerald-600" },
+  entregue: { label: "Entregue", dot: "bg-berry" },
 } as const;
+
+function StatusDot({ status }: { status: Status }) {
+  const cfg = STATUS_CONFIG[status];
+  return (
+    <span className="inline-flex items-center gap-2 text-sm">
+      <span
+        aria-hidden
+        className={`size-2 rounded-full ${cfg?.dot ?? "bg-muted-foreground"}`}
+      />
+      {cfg?.label ?? "Status desconhecido"}
+    </span>
+  );
+}
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -105,7 +96,7 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error("Erro ao carregar dados:", error);
-      alert("Erro ao carregar dados. Tente novamente.");
+      toast.error("Erro ao carregar dados. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -124,7 +115,7 @@ export default function AdminDashboard() {
       );
     } catch (error) {
       console.error("Erro ao atualizar status:", error);
-      alert("Erro ao atualizar status. Tente novamente.");
+      toast.error("Erro ao atualizar status. Tente novamente.");
     }
   };
 
@@ -140,7 +131,7 @@ export default function AdminDashboard() {
       );
     } catch (error) {
       console.error("Erro ao atualizar idoso:", error);
-      alert("Erro ao atualizar idoso. Tente novamente.");
+      toast.error("Erro ao atualizar idoso. Tente novamente.");
     }
   };
 
@@ -151,8 +142,8 @@ export default function AdminDashboard() {
       await api.delete(`/gifts/${pedidoId}`);
       setPedidos(pedidos.filter((p) => p.id !== pedidoId));
       setSelectedPedido(null);
-    } catch (error: any) {
-      alert("Erro ao deletar pedido. Tente novamente.");
+    } catch (error: unknown) {
+      toast.error("Erro ao deletar pedido. Tente novamente.");
     }
   };
 
@@ -169,362 +160,224 @@ export default function AdminDashboard() {
     idososDisponiveis: idosos.filter((i) => !i.adopted).length,
   };
 
-  const mapaStatus: Record<
-    "pendente" | "em-contato" | "confirmado" | "entregue",
-    keyof typeof estatisticas
-  > = {
-    pendente: "pendente",
-    "em-contato": "emContato",
-    confirmado: "confirmado",
-    entregue: "entregue",
-  };
+  const proximoStatus = (s: Status): Status =>
+    s === "pendente"
+      ? "em-contato"
+      : s === "em-contato"
+      ? "confirmado"
+      : "entregue";
+
+  const tabs = [
+    { id: "pedidos", label: "Pedidos", count: estatisticas.total },
+    { id: "idosos", label: "Idosos", count: idosos.length },
+  ];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-green-50 via-red-50 to-green-50">
-      <div className="bg-linear-to-r from-red-600 to-green-700 text-white py-8 shadow-xl border-b-4 border-yellow-400">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-              <h1
-                className="text-4xl font-bold mb-2"
-                style={{ fontFamily: "serif" }}
-              >
-                🎄 Painel Administrativo
-              </h1>
-              <p className="text-green-100">
-                Gerenciamento - Presentear um Idoso Natal 2025
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <Button
-                onClick={() => (window.location.href = "/")}
-                className="bg-yellow-500 text-white hover:bg-yellow-400 font-semibold"
-              >
-                ← Voltar
-              </Button>
-
-              <Button
-                onClick={() => setViewMode("pedidos")}
-                className={`font-semibold ${
-                  viewMode === "pedidos"
-                    ? "bg-white text-green-800"
-                    : "bg-green-600 text-white hover:bg-green-700"
-                }`}
-              >
-                <Package className="w-4 h-4 mr-2" />
-                Pedidos
-              </Button>
-
-              <Button
-                onClick={() => setViewMode("idosos")}
-                className={`font-semibold ${
-                  viewMode === "idosos"
-                    ? "bg-white text-green-800"
-                    : "bg-green-600 text-white hover:bg-green-700"
-                }`}
-              >
-                <Users className="w-4 h-4 mr-2" />
-                Idosos
-              </Button>
-            </div>
+    <div className="min-h-svh bg-background">
+      <header className="on-night bg-night text-night-foreground">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
+          <div>
+            <h1 className="text-2xl font-medium tracking-tight">
+              Painel administrativo
+            </h1>
+            <p className="text-sm text-night-muted">
+              Presentear um Idoso · Natal 2025
+            </p>
           </div>
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-night-muted transition-colors hover:text-night-foreground"
+          >
+            <ArrowLeft className="size-4" />
+            Voltar ao site
+          </a>
         </div>
-      </div>
+      </header>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
-          <Card className="p-4 text-center border-4 border-gray-300 bg-white shadow-lg hover:scale-105 transition-all">
-            <div className="text-3xl font-bold text-gray-800">
-              {estatisticas.total}
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <dl className="pop grid grid-cols-2 gap-x-8 gap-y-6 border-b pb-8 sm:grid-cols-3 lg:grid-cols-6">
+          {[
+            ["Pedidos", estatisticas.total],
+            ["Pendentes", estatisticas.pendente],
+            ["Em contato", estatisticas.emContato],
+            ["Confirmados", estatisticas.confirmado],
+            ["Entregues", estatisticas.entregue],
+            [
+              "Idosos presenteados",
+              `${estatisticas.idososAdotados}/${idosos.length}`,
+            ],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <dd className="font-display text-3xl font-medium tabular-nums">
+                {value}
+              </dd>
+              <dt className="mt-1 text-sm text-muted-foreground">{label}</dt>
             </div>
-            <div className="text-sm text-gray-600 font-semibold mt-1">
-              Total Pedidos
-            </div>
-          </Card>
-          <Card className="p-4 text-center border-4 border-yellow-300 bg-yellow-50 shadow-lg hover:scale-105 transition-all">
-            <div className="text-3xl font-bold text-yellow-800">
-              {estatisticas.pendente}
-            </div>
-            <div className="text-sm text-yellow-700 font-semibold mt-1">
-              Pendentes
-            </div>
-          </Card>
-          <Card className="p-4 text-center border-4 border-blue-300 bg-blue-50 shadow-lg hover:scale-105 transition-all">
-            <div className="text-3xl font-bold text-blue-800">
-              {estatisticas.emContato}
-            </div>
-            <div className="text-sm text-blue-700 font-semibold mt-1">
-              Em Contato
-            </div>
-          </Card>
-          <Card className="p-4 text-center border-4 border-green-300 bg-green-50 shadow-lg hover:scale-105 transition-all">
-            <div className="text-3xl font-bold text-green-800">
-              {estatisticas.confirmado}
-            </div>
-            <div className="text-sm text-green-700 font-semibold mt-1">
-              Confirmados
-            </div>
-          </Card>
-          <Card className="p-4 text-center border-4 border-purple-300 bg-purple-50 shadow-lg hover:scale-105 transition-all">
-            <div className="text-3xl font-bold text-purple-800">
-              {estatisticas.entregue}
-            </div>
-            <div className="text-sm text-purple-700 font-semibold mt-1">
-              Entregues
-            </div>
-          </Card>
-          <Card className="p-4 text-center border-4 border-red-300 bg-red-50 shadow-lg hover:scale-105 transition-all">
-            <div className="text-2xl font-bold text-red-800">
-              {estatisticas.idososAdotados}/{idosos.length}
-            </div>
-            <div className="text-sm text-red-700 font-semibold mt-1">
-              Idosos presenteados
-            </div>
-          </Card>
+          ))}
+        </dl>
+
+        <div role="tablist" className="mt-8 flex gap-6 border-b">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={viewMode === t.id}
+              onClick={() => setViewMode(t.id)}
+              className={`-mb-px border-b-2 pb-3 text-base font-medium transition-colors ${
+                viewMode === t.id
+                  ? "border-primary text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t.label}
+              <span className="ml-2 text-sm tabular-nums text-muted-foreground">
+                {t.count}
+              </span>
+            </button>
+          ))}
         </div>
 
         {viewMode === "pedidos" && (
-          <>
-            <Card className="p-4 mb-6 border-4 border-red-600 bg-white shadow-lg">
-              <div className="flex flex-wrap gap-3">
-                <Button
-                  onClick={() => setFilter("todos")}
-                  variant={filter === "todos" ? "default" : "outline"}
-                  className={filter === "todos" ? "bg-gray-800 text-white" : ""}
-                >
-                  Todos ({estatisticas.total})
-                </Button>
-
-                {(
-                  Object.entries(STATUS_CONFIG) as [
-                    Status,
-                    (typeof STATUS_CONFIG)[Status]
-                  ][]
-                ).map(([status, config]) => (
-                  <Button
-                    key={status}
-                    onClick={() => setFilter(status)}
-                    variant={filter === status ? "default" : "outline"}
-                    className={
-                      filter === status
-                        ? config.buttonColor + " text-white"
-                        : ""
-                    }
+          <section className="mt-6">
+            <div className="flex flex-wrap gap-2">
+              {(["todos", ...Object.keys(STATUS_CONFIG)] as string[]).map(
+                (f) => (
+                  <button
+                    key={f}
+                    onClick={() => setFilter(f)}
+                    aria-pressed={filter === f}
+                    className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                      filter === f
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border hover:border-foreground/40"
+                    }`}
                   >
-                    {config.label} ({estatisticas[mapaStatus[status]]})
-                  </Button>
-                ))}
-              </div>
-            </Card>
+                    {f === "todos" ? "Todos" : STATUS_CONFIG[f as Status].label}
+                  </button>
+                )
+              )}
+            </div>
 
             {loading ? (
-              <div className="text-center py-12">
-                <div className="text-6xl mb-4 animate-spin">🎄</div>
-                <p className="text-gray-600 font-semibold text-xl">
-                  Carregando pedidos...
-                </p>
-              </div>
+              <p className="py-20 text-center text-muted-foreground">
+                Carregando pedidos…
+              </p>
             ) : pedidosFiltrados.length === 0 ? (
-              <Card className="p-12 text-center border-4 border-gray-300 bg-white">
-                <Gift className="w-20 h-20 mx-auto mb-4 text-gray-400" />
-                <p className="text-xl text-gray-600 font-semibold">
-                  Nenhum pedido encontrado
-                </p>
-              </Card>
+              <p className="py-20 text-center text-muted-foreground">
+                Nenhum pedido encontrado.
+              </p>
             ) : (
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-4 divide-y">
                 {pedidosFiltrados.map((pedido) => (
-                  <Card
+                  <li
                     key={pedido.id}
-                    className="border-4 border-red-600 bg-linear-to-br from-white to-green-50 shadow-xl hover:scale-105 transition-all cursor-pointer"
+                    className="group grid cursor-pointer grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 py-4 transition-colors hover:bg-muted/60 sm:grid-cols-[1.2fr_1.2fr_auto_auto] sm:px-3"
                     onClick={() => setSelectedPedido(pedido)}
                   >
-                    <div className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold text-green-800 mb-2">
-                            🎁 {pedido.elderName}
-                          </h3>
-
-                          <div
-                            className={`inline-block px-3 py-1 rounded-full text-xs font-bold border-2 ${
-                              STATUS_CONFIG[pedido.status]?.color ??
-                              "border-gray-400 bg-gray-100 text-gray-600"
-                            }`}
-                          >
-                            {STATUS_CONFIG[pedido.status]?.label ??
-                              "Status Desconhecido"}
-                          </div>
-                        </div>
-
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedPedido(pedido);
-                          }}
-                          className="text-green-700 hover:text-green-900"
-                        >
-                          <Eye className="w-5 h-5" />
-                        </Button>
-                      </div>
-
-                      <div className="space-y-2 mb-4">
-                        <div className="flex items-center gap-2 text-sm">
-                          <span className="font-semibold text-gray-700">
-                            👤
-                          </span>
-                          <span className="text-gray-800 font-medium">
-                            {pedido.name}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2 text-sm">
-                          <Phone className="w-4 h-4 text-green-600" />
-                          <span className="text-gray-700">{pedido.phone}</span>
-                        </div>
-
-                        <div className="flex items-center gap-2 text-sm">
-                          <Mail className="w-4 h-4 text-blue-600" />
-                          <span className="text-gray-600 text-xs truncate">
-                            {pedido.email}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="text-xs text-gray-500 mb-4">
-                        📅 {new Date(pedido.createdAt).toLocaleString("pt-BR")}
-                      </div>
-
-                      <Button
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const proximoStatus =
-                            pedido.status === "pendente"
-                              ? "em-contato"
-                              : pedido.status === "em-contato"
-                              ? "confirmado"
-                              : pedido.status === "confirmado"
-                              ? "entregue"
-                              : "entregue";
-
-                          atualizarStatus(pedido.id, proximoStatus);
-                        }}
-                        className="w-full bg-green-600 hover:bg-green-700 text-white text-xs font-semibold"
-                        disabled={pedido.status === "entregue"}
-                      >
-                        {pedido.status === "entregue"
-                          ? "✓ Concluído"
-                          : "➜ Avançar Status"}
-                      </Button>
+                    <button
+                      className="col-span-1 text-left text-lg font-medium underline-offset-4 group-hover:underline"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedPedido(pedido);
+                      }}
+                    >
+                      {pedido.elderName}
+                    </button>
+                    <div className="order-3 col-span-2 text-sm text-muted-foreground sm:order-none sm:col-span-1">
+                      {pedido.name} ·{" "}
+                      <time>
+                        {new Date(pedido.createdAt).toLocaleString("pt-BR", {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                      </time>
                     </div>
-                  </Card>
+                    <StatusDot status={pedido.status} />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full"
+                      disabled={pedido.status === "entregue"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        atualizarStatus(pedido.id, proximoStatus(pedido.status));
+                      }}
+                    >
+                      {pedido.status === "entregue" ? (
+                        "Concluído"
+                      ) : (
+                        <>
+                          Avançar
+                          <ArrowRight className="size-3.5" />
+                        </>
+                      )}
+                    </Button>
+                  </li>
                 ))}
-              </div>
+              </ul>
             )}
-          </>
+          </section>
         )}
 
         {viewMode === "idosos" && (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-2 divide-y">
             {idosos.map((idoso) => (
-              <Card
+              <li
                 key={idoso.id}
-                className={`border-4 ${
-                  idoso.adopted
-                    ? "border-purple-600 bg-linear-to-br from-purple-50 to-green-50"
-                    : "border-green-600 bg-linear-to-br from-white to-green-50"
-                } shadow-xl hover:scale-105 transition-all`}
+                className="flex items-center justify-between gap-4 py-4 sm:px-3"
               >
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-green-800 mb-2">
-                        {idoso.adopted ? "✓" : "○"} {idoso.name}
-                      </h3>
-                      <Badge
-                        className={
-                          idoso.adopted ? "bg-purple-600" : "bg-green-600"
-                        }
-                      >
-                        {idoso.adopted ? "🎁 Adotado" : "📋 Disponível"}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <Button
-                    onClick={() => toggleIdosoAdotado(idoso.id)}
-                    className={`w-full ${
-                      idoso.adopted
-                        ? "bg-green-600 hover:bg-green-700"
-                        : "bg-purple-600 hover:bg-purple-700"
-                    } text-white font-semibold`}
-                  >
-                    {idoso.adopted
-                      ? "Marcar como Disponível"
-                      : "Marcar como Adotado"}
-                  </Button>
+                <div>
+                  <p className="text-lg font-medium">{idoso.name}</p>
+                  <p className="mt-0.5 inline-flex items-center gap-2 text-sm text-muted-foreground">
+                    <span
+                      aria-hidden
+                      className={`size-2 rounded-full ${
+                        idoso.adopted ? "bg-berry" : "bg-emerald-600"
+                      }`}
+                    />
+                    {idoso.adopted ? "Adotado" : "Disponível"}
+                  </p>
                 </div>
-              </Card>
+                <Button
+                  variant="outline"
+                  className="rounded-full"
+                  onClick={() => toggleIdosoAdotado(idoso.id)}
+                >
+                  {idoso.adopted
+                    ? "Marcar como disponível"
+                    : "Marcar como adotado"}
+                </Button>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
 
-      {selectedPedido && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedPedido(null)}
-        >
-          <Card
-            className="w-full max-w-2xl border-4 border-red-600 bg-white shadow-2xl max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-8">
-              <div className="flex justify-between items-start mb-6">
+      <Dialog
+        open={!!selectedPedido}
+        onOpenChange={(o) => !o && setSelectedPedido(null)}
+      >
+        {selectedPedido && (
+          <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto rounded-2xl border-0 p-8">
+            <DialogHeader>
+              <DialogTitle className="text-3xl font-medium tracking-tight">
+                {selectedPedido.elderName}
+              </DialogTitle>
+              <DialogDescription asChild>
                 <div>
-                  <h2
-                    className="text-3xl font-bold text-green-800 mb-2"
-                    style={{ fontFamily: "serif" }}
-                  >
-                    🎁 {selectedPedido.elderName}
-                  </h2>
-
-                  <div
-                    className={`inline-block px-4 py-2 rounded-full text-sm font-bold border-2 ${
-                      STATUS_CONFIG[selectedPedido.status]?.color ??
-                      "border-gray-400 bg-gray-100 text-gray-600"
-                    }`}
-                  >
-                    {STATUS_CONFIG[selectedPedido.status]?.label ??
-                      "Status Desconhecido"}
-                  </div>
+                  <StatusDot status={selectedPedido.status} />
                 </div>
-                <Button
-                  variant="ghost"
-                  onClick={() => setSelectedPedido(null)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
-                >
-                  ✕
-                </Button>
+              </DialogDescription>
+            </DialogHeader>
+
+            <dl className="space-y-5 text-[0.95rem]">
+              <div>
+                <dt className="text-sm text-muted-foreground">Presenteador</dt>
+                <dd className="text-lg font-medium">{selectedPedido.name}</dd>
               </div>
-
-              <div className="space-y-4 mb-6">
-                <div className="p-4 bg-green-50 rounded-lg border-2 border-green-200">
-                  <p className="text-sm font-semibold text-green-800 mb-2">
-                    👤 Presenteador
-                  </p>
-                  <p className="text-lg font-bold text-gray-800">
-                    {selectedPedido.name}
-                  </p>
-                </div>
-
-                <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
-                  <p className="text-sm font-semibold text-blue-800 mb-2">
-                    📞 Telefone
-                  </p>
+              <div>
+                <dt className="text-sm text-muted-foreground">Telefone</dt>
+                <dd>
                   <a
                     href={`https://wa.me/55${selectedPedido.phone.replace(
                       /\D/g,
@@ -532,103 +385,89 @@ export default function AdminDashboard() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-lg font-bold text-blue-700 hover:underline flex items-center gap-2"
+                    className="font-medium text-primary underline"
                   >
                     {selectedPedido.phone}
-                    <span className="text-sm font-normal">
-                      (Abrir WhatsApp)
-                    </span>
-                  </a>
-                </div>
-
-                <div className="p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
-                  <p className="text-sm font-semibold text-purple-800 mb-2">
-                    📧 Email
-                  </p>
+                  </a>{" "}
+                  <span className="text-sm text-muted-foreground">
+                    (abre o WhatsApp)
+                  </span>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm text-muted-foreground">E-mail</dt>
+                <dd>
                   <a
                     href={`mailto:${selectedPedido.email}`}
-                    className="text-lg text-purple-700 hover:underline"
+                    className="text-primary underline"
                   >
                     {selectedPedido.email}
                   </a>
-                </div>
-
-                {selectedPedido.message && (
-                  <div className="p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
-                    <p className="text-sm font-semibold text-yellow-800 mb-2">
-                      💬 Mensagem
-                    </p>
-                    <p className="text-gray-800 italic">
-                      "{selectedPedido.message}"
-                    </p>
-                  </div>
-                )}
-
-                <div className="p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                  <p className="text-sm font-semibold text-gray-800 mb-2">
-                    📅 Data do Pedido
-                  </p>
-                  <p className="text-gray-800">
-                    {new Date(selectedPedido.createdAt).toLocaleString(
-                      "pt-BR",
-                      {
-                        dateStyle: "long",
-                        timeStyle: "short",
-                      }
-                    )}
-                  </p>
-                </div>
+                </dd>
               </div>
-
-              <div className="mb-6">
-                <p className="text-sm font-semibold text-gray-800 mb-3">
-                  Atualizar Status:
-                </p>
-                <div className="grid grid-cols-2 gap-3">
-                  {(
-                    Object.entries(STATUS_CONFIG) as [
-                      Status,
-                      (typeof STATUS_CONFIG)[Status]
-                    ][]
-                  ).map(([status, config]) => (
-                    <Button
-                      key={status}
-                      onClick={() => atualizarStatus(selectedPedido.id, status)}
-                      variant={
-                        selectedPedido.status === status ? "default" : "outline"
-                      }
-                      className={
-                        selectedPedido.status === status
-                          ? config.buttonColor + " text-white"
-                          : ""
-                      }
-                    >
-                      {config.label}
-                    </Button>
-                  ))}
+              {selectedPedido.message && (
+                <div>
+                  <dt className="text-sm text-muted-foreground">Mensagem</dt>
+                  <dd className="rounded-xl bg-muted p-4 leading-relaxed">
+                    {selectedPedido.message}
+                  </dd>
                 </div>
+              )}
+              <div>
+                <dt className="text-sm text-muted-foreground">
+                  Data do pedido
+                </dt>
+                <dd>
+                  {new Date(selectedPedido.createdAt).toLocaleString("pt-BR", {
+                    dateStyle: "long",
+                    timeStyle: "short",
+                  })}
+                </dd>
               </div>
+            </dl>
 
-              <div className="flex gap-3">
-                <Button
-                  onClick={() => setSelectedPedido(null)}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  Fechar
-                </Button>
-                <Button
-                  onClick={() => deletarPedido(selectedPedido.id)}
-                  className="bg-red-600 hover:bg-red-700 text-white"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Deletar
-                </Button>
+            <div>
+              <p className="mb-3 text-sm text-muted-foreground">
+                Atualizar status
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {(Object.keys(STATUS_CONFIG) as Status[]).map((status) => (
+                  <button
+                    key={status}
+                    aria-pressed={selectedPedido.status === status}
+                    onClick={() => atualizarStatus(selectedPedido.id, status)}
+                    className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                      selectedPedido.status === status
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border hover:border-foreground/40"
+                    }`}
+                  >
+                    {STATUS_CONFIG[status].label}
+                  </button>
+                ))}
               </div>
             </div>
-          </Card>
-        </div>
-      )}
+
+            <div className="flex justify-between gap-3 border-t pt-6">
+              <Button
+                variant="ghost"
+                className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                onClick={() => deletarPedido(selectedPedido.id)}
+              >
+                <Trash2 className="size-4" />
+                Excluir pedido
+              </Button>
+              <Button
+                variant="outline"
+                className="rounded-full"
+                onClick={() => setSelectedPedido(null)}
+              >
+                Fechar
+              </Button>
+            </div>
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
   );
 }

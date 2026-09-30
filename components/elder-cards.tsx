@@ -1,9 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Gift } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface Elder {
   id: string;
@@ -17,147 +14,69 @@ interface Elder {
 interface ElderCardProps {
   elder: Elder | undefined;
   onGift: () => void;
+  index?: number;
 }
 
-export const ElderCard = ({ elder, onGift }: ElderCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+export const ElderCard = ({ elder, onGift, index = 0 }: ElderCardProps) => {
+  if (!elder) return null;
 
-  if (!elder) {
-    return null;
-  }
-
-  const getEmoji = (id: string) => {
-    const emojis: Record<string, string> = {
-      "1": "👵",
-      "2": "👴",
-      "3": "👵",
-      "4": "👴",
-      "5": "👵",
-    };
-    return emojis[id] || "👴";
-  };
+  const initial = elder.name.trim().charAt(0).toUpperCase();
 
   return (
-    <Card
-      className="relative overflow-hidden border-4 border-red-600 bg-linear-to-br from-green-50 to-red-50 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <article
+      className="reveal group flex flex-col"
+      style={{ animationDelay: `${(index % 3) * 80}ms` }}
     >
-      <div className="absolute top-0 left-0 w-16 h-16">
-        <div className="absolute top-2 left-2 text-yellow-500 animate-spin-slow">
-          ⭐
-        </div>
-      </div>
-      <div className="absolute top-0 right-0 w-16 h-16">
-        <div className="absolute top-2 right-2 text-red-600 animate-bounce-slow">
-          🎄
-        </div>
-      </div>
-
-      <div className="absolute top-8 left-0 right-0 h-8 bg-linear-to-r from-red-600 via-red-700 to-red-600 transform -skew-y-2 shadow-md"></div>
-      <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
-        <div className="w-12 h-12 bg-yellow-400 rounded-full border-4 border-red-700 flex items-center justify-center shadow-lg">
-          <Gift className="w-6 h-6 text-red-700" />
-        </div>
-      </div>
-
-      <div className="p-6 pt-20">
-        <div className="mb-4 flex justify-center">
-          <div className="relative w-32 h-32 rounded-full border-4 border-green-700 overflow-hidden shadow-xl bg-white">
-            {elder.image ? (
-              <img
-                src={elder.image}
-                alt={elder.name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-6xl">
-                {getEmoji(elder.id)}
-              </div>
-            )}
+      <div className="relative aspect-4/5 overflow-hidden rounded-2xl bg-night">
+        {elder.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={elder.image}
+            alt={`Retrato de ${elder.name}`}
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+        ) : (
+          <div
+            aria-hidden
+            className="flex h-full w-full items-center justify-center font-display text-8xl text-candle"
+          >
+            {initial}
           </div>
-        </div>
-
-        <h3
-          className="mb-2 text-center text-2xl font-bold text-green-800"
-          style={{ fontFamily: "serif" }}
-        >
-          {elder.name}
-        </h3>
-        <p className="mb-1 text-center text-sm font-medium text-red-700">
+        )}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-linear-to-t from-night-deep/55 via-transparent to-transparent"
+        />
+        <p className="absolute bottom-4 left-5 font-display text-sm font-medium text-night-foreground">
           {elder.age} anos
         </p>
-
-        <div className="my-4 space-y-3 rounded-lg bg-white/60 p-4 border-2 border-green-200">
-          <div>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-green-700">
-              ❤️ Sobre mim:
-            </p>
-            <p className="text-sm leading-relaxed text-gray-700">
-              {elder.likes}
-            </p>
-          </div>
-          <div>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-red-700">
-              🎁 Desejo:
-            </p>
-            <p className="text-sm leading-relaxed text-gray-700">
-              {elder.wish}
-            </p>
-          </div>
-        </div>
-
-        <Button
-          onClick={onGift}
-          className="w-full h-12 gap-2 rounded-full bg-linear-to-r from-red-600 to-green-700 text-white font-bold text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:from-red-700 hover:to-green-800 group-hover:animate-pulse"
-        >
-          <Gift className="h-5 w-5" />
-          Presentear {elder.name}
-        </Button>
       </div>
 
-      {isHovered && (
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-yellow-200/20 to-transparent animate-shimmer"></div>
-        </div>
-      )}
+      <div className="flex flex-1 flex-col pt-5">
+        <h3 className="text-2xl font-medium tracking-tight">{elder.name}</h3>
 
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-        @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 4s linear infinite;
-        }
-        @keyframes bounce-slow {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 2s ease-in-out infinite;
-        }
-      `}</style>
-    </Card>
+        <dl className="mt-4 space-y-3 text-[0.95rem] leading-relaxed">
+          <div>
+            <dt className="text-sm font-medium text-muted-foreground">
+              Sobre mim
+            </dt>
+            <dd>{elder.likes}</dd>
+          </div>
+          <div>
+            <dt className="text-sm font-medium text-primary">Desejo</dt>
+            <dd>{elder.wish}</dd>
+          </div>
+        </dl>
+
+        <button
+          type="button"
+          onClick={onGift}
+          className="group/btn mt-6 inline-flex h-12 items-center justify-between rounded-full bg-primary px-6 font-medium text-primary-foreground transition-[background-color,box-shadow,transform] duration-300 hover:bg-primary/90 hover:shadow-[0_8px_20px_-8px_var(--primary)] active:scale-[0.98]"
+        >
+          Presentear {elder.name.split(" ")[0]}
+          <ArrowRight className="size-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+        </button>
+      </div>
+    </article>
   );
 };
