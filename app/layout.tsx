@@ -1,40 +1,24 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Merriweather } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { Toaster } from "sonner"; // 👈 importa aqui
+import { Toaster } from "sonner";
 import "./globals.css";
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
-const _merriweather = Merriweather({
-  weight: ["700"],
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-bricolage",
+  weight: ["500", "700"],
+});
+const body = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-hanken",
 });
 
 export const metadata: Metadata = {
-  title: "Presentei um Idoso neste Natal - Transforme Vidas com Amor",
+  title: "Presentear um Idoso neste Natal",
   description:
-    "Participe do projeto Presentei um Idoso neste Natal e leve alegria, carinho e esperança para quem mais precisa. Cada gesto de amor transforma vidas.",
-  generator: "v0.app",
-  icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
-  },
+    "Participe do projeto Presentear um Idoso neste Natal e leve alegria, carinho e esperança para quem mais precisa. Cada gesto de amor transforma vidas.",
 };
 
 export default function RootLayout({
@@ -44,9 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${_merriweather.variable} font-sans antialiased`}>
+      <body
+        className={`${display.variable} ${body.variable} font-sans antialiased`}
+      >
         {children}
-        <Toaster richColors position="top-center" />
+        <Toaster position="top-center" />
         <Analytics />
       </body>
     </html>
