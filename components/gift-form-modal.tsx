@@ -66,9 +66,9 @@ export function GiftFormModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md rounded-2xl border-0 p-8 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.45)]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-foreground">
+          <DialogTitle className="text-3xl font-medium tracking-tight text-foreground">
             Presentear {elderName}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
@@ -121,7 +121,7 @@ export function GiftFormModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="message">Mensagem*</Label>
+            <Label htmlFor="message">Mensagem</Label>
             <Textarea
               id="message"
               placeholder="Deixe uma mensagem carinhosa para o idoso..."
@@ -139,16 +139,16 @@ export function GiftFormModal({
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1 bg-transparent"
+              className="h-12 flex-1 rounded-full bg-transparent"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
-              className="flex-1 gap-2 bg-primary font-semibold text-primary-foreground"
+              className="h-12 flex-1 gap-2 rounded-full bg-primary font-medium text-primary-foreground"
             >
               <Heart className="h-4 w-4" />
-              Confirmar Adoção
+              Confirmar adoção
             </Button>
           </div>
         </form>
